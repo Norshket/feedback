@@ -2,7 +2,7 @@
 <template>
   <div>
     <b-button id="show-btn" @click="showModal">
-      Форма обратнйо связи
+      Форма обратной связи
     </b-button>
 
     <b-modal ref="my-modal" hide-footer hide-header-close title="Форма обратнйо связи">

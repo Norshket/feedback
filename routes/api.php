@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::prefix('/feedback')->group( function () {
+Route::prefix('/feedback')->middleware('throttle:60,1')->group( function () {
     Route::post('/send', [FeedbackController::class, 'send']);
 });
 

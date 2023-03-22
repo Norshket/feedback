@@ -25,7 +25,7 @@ class FeedbackRequest extends FormRequest
     {
         return [
             "email" => "required|string|email",
-            "phone" => "required|string",
+            "phone" => "required|string|phone_number",
             "text"  => "required|string|max:65000",
         ];
     }

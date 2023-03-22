@@ -1,66 +1,31 @@
 
 <template>
   <div>
-    <b-button 
-      id="show-btn" 
-      @click="showModal"
-    >
+    <b-button id="show-btn" @click="showModal">
       Форма обратнйо связи
     </b-button>
 
-    <b-modal 
-        ref="my-modal" 
-        hide-footer 
-        hide-header-close 
-        title="Форма обратнйо связи"
-      >
+    <b-modal ref="my-modal" hide-footer hide-header-close title="Форма обратнйо связи">
       <b-form>
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          placeholder="Email" 
-          class="mb-2"
-        >
+        <b-form-input id="input-1" v-model="form.email" type="email" placeholder="Email" class="mb-2">
         </b-form-input>
 
-        <b-form-input 
-          id="input-1"
-          v-model="form.phone"
-          type="tel"
-          placeholder="Телефон"
-          class="mb-2"
-        >
+        <b-form-input id="input-1" v-model="form.phone" type="tel" placeholder="Телефон" class="mb-2">
         </b-form-input>
 
         <b-row class="mt-2">
           <b-col>
-            <b-form-textarea 
-              id="textarea" 
-              v-model="form.text" 
-              placeholder="Обращение..." 
-              rows="3"
-            >
+            <b-form-textarea id="textarea" v-model="form.text" placeholder="Обращение..." rows="3">
             </b-form-textarea>
           </b-col>
         </b-row>
       </b-form>
 
-      <b-button
-        class="mt-3"
-        variant="outline-danger"
-        block 
-        @click="hideModal"
-      >
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">
         Закрыть
       </b-button>
 
-      <b-button 
-        class="mt-3"
-        variant="outline-primary"
-        block
-        @click="sendModal"
-      >
+      <b-button class="mt-3" variant="outline-primary" block @click="sendModal">
         Отправить
       </b-button>
     </b-modal>
@@ -88,35 +53,27 @@ export default {
     hideModal() {
       this.$refs['my-modal'].hide()
       this.resetForm()
-
     },
 
     sendModal() {
       this.$api.feedbackApi.feedback(this.form).then(({ data }) => {
         this.$toast.success('success');
         this.resetForm()
-      }).catch(({response}) => {
+        this.hideModal()
+      }).catch(({ response }) => {
         const errors = response.data.errors;
-
-        console.log(errors);
-
-        Object.values(errors).forEach(( error ) => {
+        Object.values(errors).forEach((error) => {
           this.$toast.error(error[0])
         })
-     
+
       })
     },
 
     resetForm() {
-
-      
-
-      Object.values(this.form).forEach(({ data }) => {
-        data = ''
-      })
+      this.form.email = ''
+      this.form.phone = ''
+      this.form.text = ''
     }
-
-
   }
 }
 </script>
